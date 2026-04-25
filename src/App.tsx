@@ -4,16 +4,45 @@
  */
 
 import { motion } from 'motion/react';
+import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import AboutSkills from './components/AboutSkills';
 import Timeline from './components/Timeline';
 import Portfolio from './components/Portfolio';
 import ContactFooter from './components/ContactFooter';
+import CustomCursor from './components/CustomCursor';
+import ScrollProgress from './components/ScrollProgress';
 
 export default function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkMode(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    if (!isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
   return (
-    <div className="relative min-h-screen bg-slate-100 text-slate-700 font-sans selection:bg-blue-600/10 selection:text-blue-900 overflow-hidden">
+    <div className="relative min-h-screen bg-slate-100 text-slate-700 dark:bg-slate-950 dark:text-slate-300 font-sans selection:bg-blue-600/10 selection:text-blue-900 overflow-hidden transition-colors duration-500">
+      <CustomCursor />
+      <ScrollProgress />
       {/* Background Ornaments */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         {/* Striking Colorful Blobs */}
@@ -46,12 +75,12 @@ export default function App() {
         />
 
         {/* Enhanced Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] bg-[size:60px_60px]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_200px,#3b82f610,transparent)]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_200px,#3b82f610,transparent)] dark:bg-[radial-gradient(circle_800px_at_50%_200px,#3b82f615,transparent)]"></div>
       </div>
 
       <div className="relative z-10">
-        <Navbar />
+        <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
         <main>
           <Hero />
           <AboutSkills />

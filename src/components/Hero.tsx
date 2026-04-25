@@ -4,6 +4,9 @@
  */
 
 import { motion } from 'motion/react';
+import Magnetic from './Magnetic';
+import StaggeredText from './StaggeredText';
+import LiquidImage from './LiquidImage';
 
 export default function Hero() {
   return (
@@ -26,28 +29,32 @@ export default function Hero() {
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600">Available for projects</span>
           </div>
 
-          <h1 className="text-7xl md:text-[120px] font-black leading-[0.85] text-navy mb-8 tracking-tighter uppercase">
-            AL-FARIZQ <br />
-            <span className="text-gradient">ALDINO.</span>
+          <h1 className="text-7xl md:text-[120px] font-black leading-[0.85] text-navy dark:text-white mb-8 tracking-tighter uppercase">
+            <StaggeredText text="AL-FARIZQ" delay={0.1} /> <br />
+            <span className="text-gradient"><StaggeredText text="ALDINO." delay={0.6} /></span>
           </h1>
 
-          <p className="text-lg md:text-xl text-slate-500 mb-12 max-w-xl leading-relaxed font-light">
-            Professional <span className="text-navy font-bold">Content Creator</span>, <span className="text-navy font-bold">Social Media Specialist</span>, & <span className="text-blue-600 font-bold italic underline decoration-blue-200 underline-offset-8">Master of Ceremony</span> based in Jakarta.
+          <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 mb-12 max-w-xl leading-relaxed font-light">
+            Professional <span className="text-navy dark:text-white font-bold">Content Creator</span>, <span className="text-navy dark:text-white font-bold">Social Media Specialist</span>, & <span className="text-blue-600 font-bold italic underline decoration-blue-200 dark:decoration-blue-900 underline-offset-8">Master of Ceremony</span> based in Jakarta.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center md:justify-start">
-            <a
-              href="#karya"
-              className="px-10 py-5 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all transform hover:-translate-y-1 glow-blue text-center text-sm uppercase tracking-widest"
-            >
-              Lihat Karya Saya
-            </a>
-            <a
-              href="#kontak"
-              className="px-10 py-5 glass text-navy rounded-2xl font-bold hover:bg-white/60 transition-all text-center text-sm uppercase tracking-widest border-white"
-            >
-              Mari Berkolaborasi
-            </a>
+            <Magnetic>
+              <a
+                href="#karya"
+                className="px-10 py-5 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all transform hover:-translate-y-1 glow-blue text-center text-sm uppercase tracking-widest block"
+              >
+                Lihat Karya Saya
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a
+                href="#kontak"
+                className="px-10 py-5 glass text-navy dark:text-white rounded-2xl font-bold hover:bg-white/60 dark:hover:bg-slate-800/60 transition-all text-center text-sm uppercase tracking-widest border-white dark:border-slate-800 block"
+              >
+                Mari Berkolaborasi
+              </a>
+            </Magnetic>
           </div>
         </motion.div>
 
@@ -61,16 +68,15 @@ export default function Hero() {
         >
           <div id="profile-card" className="relative group w-full">
             <div className="absolute -inset-4 bg-gradient-to-r from-blue-400/20 to-indigo-400/20 rounded-[3rem] blur-2xl opacity-40 group-hover:opacity-60 transition duration-1000"></div>
-            <div className="relative glass-card p-4 rounded-[3rem] shadow-2xl overflow-hidden aspect-[4/5] w-full flex items-center justify-center border-white">
-              <div className="w-full h-full bg-slate-100 rounded-[2.5rem] flex items-center justify-center overflow-hidden border border-white/40">
-                <img
+            <div className="relative glass-card p-4 rounded-[3rem] shadow-2xl overflow-hidden aspect-[4/5] w-full flex items-center justify-center border-white dark:border-slate-800">
+              <div className="w-full h-full bg-slate-100 dark:bg-slate-900 rounded-[2.5rem] flex items-center justify-center overflow-hidden border border-white/40 dark:border-slate-700/40">
+                <LiquidImage
                   src="/images/profile.jpg"
                   alt="Al-Farizq Aldino"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
                 />
               </div>
-              <div className="absolute bottom-10 left-10 right-10 glass p-6 rounded-2xl border-white shadow-2xl">
-                <p className="font-black text-navy text-xl tracking-tight">AL-FARIZQ ALDINO</p>
+              <div className="absolute bottom-10 left-10 right-10 glass p-6 rounded-2xl border-white dark:border-slate-800 shadow-2xl">
+                <p className="font-black text-navy dark:text-white text-xl tracking-tight">AL-FARIZQ ALDINO</p>
                 <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em] mt-1">Creator & MC</p>
               </div>
             </div>

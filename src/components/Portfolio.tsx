@@ -5,6 +5,8 @@
 
 import { motion } from 'motion/react';
 import { Video, PenTool, Layout, Terminal } from 'lucide-react';
+import TiltCard from './TiltCard';
+import ParallaxBackgroundText from './ParallaxBackgroundText';
 
 export default function Portfolio() {
   const roles = [
@@ -36,10 +38,11 @@ export default function Portfolio() {
 
   return (
     <section id="karya" className="relative py-32 px-6">
+      <ParallaxBackgroundText word="WORKS" direction="right" speed={1.5} />
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-24">
           <h2 className="text-sm font-black text-blue-600 uppercase tracking-[0.4em] mb-4">Layanan & Keahlian</h2>
-          <h3 className="text-5xl md:text-6xl font-black text-navy uppercase tracking-tighter">Peran Profesional</h3>
+          <h3 className="text-5xl md:text-6xl font-black text-navy dark:text-white uppercase tracking-tighter">Peran Profesional</h3>
         </div>
 
         {/* Grid System: 3 columns on desktop, 1 on mobile */}
@@ -50,12 +53,12 @@ export default function Portfolio() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
-              whileHover={{ y: -15, scale: 1.02 }}
               viewport={{ once: true }}
-              className="glass-card rounded-[3rem] overflow-hidden border-white hover:shadow-2xl transition-all group h-full flex flex-col"
+              className="h-full"
             >
-              {/* Card Header with Image */}
-              <div className="h-64 relative overflow-hidden bg-slate-100">
+              <TiltCard className="glass-card rounded-[3rem] overflow-hidden border-white dark:border-slate-800 hover:shadow-2xl transition-all group h-full flex flex-col">
+                {/* Card Header with Image */}
+                <div className="h-64 relative overflow-hidden bg-slate-100 dark:bg-slate-900">
                 <img
                   src={item.image}
                   alt={item.role}
@@ -74,20 +77,21 @@ export default function Portfolio() {
                   <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em]">Professional Role</span>
                 </div>
 
-                <h4 className="text-3xl font-black text-navy mb-6 group-hover:text-blue-600 transition-colors leading-tight uppercase tracking-tight">
+                <h4 className="text-3xl font-black text-navy dark:text-white mb-6 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight uppercase tracking-tight">
                   {item.role}
                 </h4>
 
-                <p className="text-slate-500 text-lg mb-8 flex-1 font-light leading-relaxed">
+                <p className="text-slate-500 dark:text-slate-400 text-lg mb-8 flex-1 font-light leading-relaxed">
                   {item.desc}
                 </p>
 
-                <div className="pt-8 border-t border-slate-50 mt-auto">
-                  <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed">
+                <div className="pt-8 border-t border-slate-50 dark:border-slate-800 mt-auto">
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest leading-relaxed">
                     <span className="text-blue-600 mr-2">Highlight:</span> {item.details}
                   </p>
                 </div>
               </div>
+              </TiltCard>
             </motion.div>
           ))}
         </div>
