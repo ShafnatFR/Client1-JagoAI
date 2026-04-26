@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { motion } from 'motion/react';
-import { Menu, X, Sun, Moon } from 'lucide-react';
-import { useState } from 'react';
+import { Sun, Moon } from 'lucide-react';
 
 interface NavbarProps {
   isDarkMode?: boolean;
@@ -13,7 +11,6 @@ interface NavbarProps {
 }
 
 export default function Navbar({ isDarkMode, toggleTheme }: NavbarProps) {
-  const [isOpen, setIsOpen] = useState(false);
 
   const menuLinks = [
     { name: 'Beranda', href: '#beranda' },
@@ -50,45 +47,19 @@ export default function Navbar({ isDarkMode, toggleTheme }: NavbarProps) {
           </button>
         </div>
 
-        {/* Mobile Toggle & Theme */}
-        <div className="md:hidden flex items-center gap-4">
+        {/* Mobile: only theme toggle (nav is handled by MobileBottomBar) */}
+        <div className="md:hidden flex items-center">
           <button
             onClick={toggleTheme}
-            className="p-2 text-slate-400"
+            className="p-2 text-slate-400 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
             aria-label="Toggle Theme"
           >
             {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
-          <button
-            id="mobile-menu-toggle"
-            className="p-2 text-slate-400"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle Menu"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <motion.div
-        initial={false}
-        animate={isOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
-        className="md:hidden overflow-hidden bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl rounded-b-2xl border-t border-slate-100 dark:border-slate-800"
-      >
-        <div className="flex flex-col p-6 gap-4">
-          {menuLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-sm font-black text-slate-400 hover:text-navy dark:hover:text-white uppercase tracking-widest transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              {link.name}
-            </a>
-          ))}
-        </div>
-      </motion.div>
+
     </nav>
   );
 }

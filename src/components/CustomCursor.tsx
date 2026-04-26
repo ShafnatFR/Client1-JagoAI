@@ -8,6 +8,8 @@ import { motion, useMotionValue, useSpring } from 'motion/react';
 
 export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false);
+  // Don't render on touch-only devices
+  const isTouchDevice = typeof window !== 'undefined' && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
@@ -35,6 +37,8 @@ export default function CustomCursor() {
       document.documentElement.removeEventListener('mouseenter', handleMouseEnter);
     };
   }, [cursorX, cursorY, isVisible]);
+
+  if (isTouchDevice) return null;
 
   return (
     <motion.div

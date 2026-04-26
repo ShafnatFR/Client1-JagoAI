@@ -21,6 +21,15 @@
 
   body {
     @apply antialiased overflow-x-hidden;
+    /* Hide default cursor on desktop only */
+    cursor: none;
+  }
+
+  /* Restore cursor on touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    body {
+      cursor: auto;
+    }
   }
 
   h1,
@@ -47,10 +56,74 @@
   }
 
   .glow-blue {
-    @apply shadow-[0_0_40px_-5px_rgba(59,130,246,0.2)];
+    @apply shadow-[0_0_40px_-5px_rgba(59,130,246,0.3)] hover:shadow-[0_0_60px_-5px_rgba(59,130,246,0.5)] transition-shadow duration-500;
   }
 
   .decorative-ring {
     @apply border border-blue-500/10 rounded-full;
+  }
+
+  /* Spotlight Card */
+  .spotlight-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .spotlight-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      400px circle at var(--spotlight-x) var(--spotlight-y),
+      rgba(59, 130, 246, 0.12),
+      transparent 60%
+    );
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .spotlight-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Kinetic Marquee */
+  .marquee-track {
+    animation: marquee-scroll 25s linear infinite;
+    will-change: transform;
+  }
+
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Film Grain Overlay */
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9990;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* Scrollbar hide */
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Mobile extra scroll spacing for bottom bar */
+  @media (max-width: 767px) {
+    main {
+      padding-bottom: 6rem;
+    }
   }
 }

@@ -3,18 +3,33 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 
 interface LiquidImageProps {
   src: string;
   alt: string;
-  className?: string; // Digunakan menimpa layout dari luar
+  className?: string;
 }
 
 export default function LiquidImage({ src, alt, className = '' }: LiquidImageProps) {
   const [isHovered, setIsHovered] = useState(false);
+  // Disable liquid distortion on touch devices (gyroscope / no hover)
+  const [isTouch, setIsTouch] = useState(false);
   const filterId = `liquid-filter-${Math.random().toString(36).substring(2, 9)}`;
+
+  useEffect(() => {
+    setIsTouch(window.matchMedia('(hover: none) and (pointer: coarse)').matches);
+  }, []);
+
+  // On touch: render bare img, no SVG filter overhead
+  if (isTouch) {
+    return (
+      <div className={`relative overflow-hidden w-full h-full ${className}`}>
+        <img src={src} alt={alt} className="w-full h-full object-cover block" />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -22,17 +37,16 @@ export default function LiquidImage({ src, alt, className = '' }: LiquidImagePro
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Definisi Filter Vektor (Tidak Tampil Kasat Mata) */}
+      {/* SVG liquid filter — only loaded on non-touch (desktop) */}
       <svg className="hidden absolute inset-0 z-[-1] pointer-events-none">
         <defs>
           <filter id={filterId}>
             <feTurbulence
               type="fractalNoise"
-              baseFrequency="0.02" /* Pola riaknya */
+              baseFrequency="0.02"
               numOctaves="3"
               result="noise"
             />
-            {/* Animasi membesarnya nilai distorsi akan menarik grafis utama berdasarkan noise */}
             <motion.feDisplacementMap
               in="SourceGraphic"
               in2="noise"
@@ -44,12 +58,11 @@ export default function LiquidImage({ src, alt, className = '' }: LiquidImagePro
           </filter>
         </defs>
       </svg>
-      {/* Gambar Asli yang Diaplikasikan Filter */}
+
       <motion.img
         src={src}
         alt={alt}
         className="w-full h-full object-cover block origin-center"
-        // Sengaja ditambahkan sedikit perbesaran saat hover agar sudut gambar tidak terlihat bolong ketika riak ditarik
         animate={{ scale: isHovered ? 1.05 : 1 }}
         transition={{ duration: 0.5 }}
         style={{ filter: `url(#${filterId})` }}

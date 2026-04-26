@@ -13,6 +13,9 @@ import Portfolio from './components/Portfolio';
 import ContactFooter from './components/ContactFooter';
 import CustomCursor from './components/CustomCursor';
 import ScrollProgress from './components/ScrollProgress';
+import SkillsMarquee from './components/SkillsMarquee';
+import Preloader from './components/Preloader';
+import MobileBottomBar from './components/MobileBottomBar';
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -40,55 +43,71 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-slate-100 text-slate-700 dark:bg-slate-950 dark:text-slate-300 font-sans selection:bg-blue-600/10 selection:text-blue-900 overflow-hidden transition-colors duration-500">
-      <CustomCursor />
-      <ScrollProgress />
-      {/* Background Ornaments */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* Striking Colorful Blobs */}
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.15, 0.25, 0.15],
-            x: [0, 50, 0],
-            y: [0, -50, 0]
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[-15%] left-[-10%] w-[60%] h-[60%] bg-blue-500/20 rounded-full blur-[150px]"
-        />
-        <motion.div
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.1, 0.2, 0.1],
-            x: [0, -60, 0],
-            y: [0, 40, 0]
-          }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-[-15%] right-[-10%] w-[60%] h-[60%] bg-indigo-500/20 rounded-full blur-[150px]"
-        />
-        <motion.div
-          animate={{
-            opacity: [0.05, 0.15, 0.05],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 right-1/4 w-[40%] h-[40%] bg-pink-500/10 rounded-full blur-[120px]"
-        />
+    <>
+      {/* Preloader splash screen */}
+      <Preloader />
 
-        {/* Enhanced Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:60px_60px]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_200px,#3b82f610,transparent)] dark:bg-[radial-gradient(circle_800px_at_50%_200px,#3b82f615,transparent)]"></div>
-      </div>
+      <div className="relative min-h-screen bg-slate-100 text-slate-700 dark:bg-slate-950 dark:text-slate-300 font-sans selection:bg-blue-600/10 selection:text-blue-900 overflow-hidden transition-colors duration-500">
+        {/* Film Grain Overlay */}
+        <div className="grain-overlay" aria-hidden="true" />
 
-      <div className="relative z-10">
-        <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-        <main>
-          <Hero />
-          <AboutSkills />
-          <Timeline />
-          <Portfolio />
-        </main>
-        <ContactFooter />
+        {/* Custom cursor — desktop only */}
+        <CustomCursor />
+        <ScrollProgress />
+
+        {/* Background Ornaments */}
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          {/* Animated Blobs — hidden on mobile for perf */}
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.15, 0.25, 0.15],
+              x: [0, 50, 0],
+              y: [0, -50, 0]
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            className="hidden sm:block absolute top-[-15%] left-[-10%] w-[60%] h-[60%] bg-blue-500/20 rounded-full blur-[150px]"
+          />
+          <motion.div
+            animate={{
+              scale: [1.2, 1, 1.2],
+              opacity: [0.1, 0.2, 0.1],
+              x: [0, -60, 0],
+              y: [0, 40, 0]
+            }}
+            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+            className="hidden sm:block absolute bottom-[-15%] right-[-10%] w-[60%] h-[60%] bg-indigo-500/20 rounded-full blur-[150px]"
+          />
+          <motion.div
+            animate={{ opacity: [0.05, 0.15, 0.05] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            className="hidden sm:block absolute top-1/4 right-1/4 w-[40%] h-[40%] bg-pink-500/10 rounded-full blur-[120px]"
+          />
+
+          {/* Simpler static blob for mobile */}
+          <div className="sm:hidden absolute top-[-10%] left-[-5%] w-[70%] h-[40%] bg-blue-500/10 rounded-full blur-[100px]" />
+
+          {/* Grid Pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_200px,#3b82f610,transparent)] dark:bg-[radial-gradient(circle_800px_at_50%_200px,#3b82f615,transparent)]"></div>
+        </div>
+
+        <div className="relative z-10">
+          <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+          <main>
+            <Hero />
+            {/* Kinetic marquee strip between Hero and About */}
+            <SkillsMarquee />
+            <AboutSkills />
+            <Timeline />
+            <Portfolio />
+          </main>
+          <ContactFooter />
+        </div>
+
+        {/* Mobile bottom navigation — only rendered on small screens */}
+        <MobileBottomBar />
       </div>
-    </div>
+    </>
   );
 }
