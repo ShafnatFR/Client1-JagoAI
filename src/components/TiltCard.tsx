@@ -19,8 +19,14 @@ export default function TiltCard({ children, className }: { children: React.Reac
   const rotateX = useTransform(smoothY, [-1, 1], [10, -10]);
   const rotateY = useTransform(smoothX, [-1, 1], [-10, 10]);
 
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    setIsTouch(window.matchMedia('(hover: none) and (pointer: coarse)').matches);
+  }, []);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
+    if (!ref.current || isTouch) return;
     const { clientX, clientY } = e;
     const { height, width, left, top } = ref.current.getBoundingClientRect();
     const normalizedX = (clientX - (left + width / 2)) / (width / 2);
@@ -31,6 +37,7 @@ export default function TiltCard({ children, className }: { children: React.Reac
   };
 
   const handleMouseLeave = () => {
+    if (isTouch) return;
     x.set(0);
     y.set(0);
   };
@@ -38,8 +45,8 @@ export default function TiltCard({ children, className }: { children: React.Reac
   return (
     <motion.div
       ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseMove={isTouch ? undefined : handleMouseMove}
+      onMouseLeave={isTouch ? undefined : handleMouseLeave}
       style={{
         rotateX,
         rotateY,
